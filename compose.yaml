@@ -1,0 +1,27 @@
+version: "3.8"
+
+services: 
+  web:
+    build: .
+    depends_on:
+      - verdaccio
+    user: root
+    ports: 
+      - "80:3001"
+    volumes:
+      - verdaccio-data:/verdaccio/storage/data
+      - git-repo:/verdaccio/storage/.git
+      - patchs:/patches
+  verdaccio:
+    image: verdaccio/verdaccio
+    user: root
+    ports:
+      - 4873:4873
+    volumes:
+      - verdaccio-data:/verdaccio/storage/data
+      - ./verdaccio/conf/config.yaml:/verdaccio/conf/config.yaml
+
+volumes:
+  verdaccio-data:
+  git-repo:
+  patchs:
