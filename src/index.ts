@@ -1,8 +1,10 @@
 import express from "express"
 import multer from "multer"
 import fs from "fs"
-import { am } from "./actions"
+import { am, clear } from "./actions"
 import path from "path"
+
+const PORT = process.env.PORT_ADMIN || 3000
 
 const tmpDir = "/patches"
 try {
@@ -38,6 +40,11 @@ app.post("/upload", multer({ storage: storage }).single("file"), (req, res) => {
   return
 })
 
-const server = app.listen(3001, () => {
-  console.log("Server ready at: http://localhost:3001")
+app.get("/clear", (req, res) => {
+  clear()
+  res.json({ success: "Storage cleared" })
+})
+
+const server = app.listen(PORT, () => {
+  console.log(`Server ready at: http://localhost:${PORT}`)
 })

@@ -12,6 +12,6 @@ RUN cd /app && npm install
 
 COPY . /app/
 
-EXPOSE 3001
+EXPOSE 3000
 
 CMD ["npm", "run", "dev"]
