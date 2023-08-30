@@ -48,3 +48,7 @@ app.get("/clear", (req, res) => {
 const server = app.listen(PORT, () => {
   console.log(`Server ready at: http://localhost:${PORT}`)
 })
+
+process.on("SIGTERM", () => {
+  server.close()
+})

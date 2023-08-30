@@ -12,6 +12,6 @@ RUN cd /app && npm install
 
 COPY . /app/
 
-EXPOSE 3000
+RUN npm run build
 
-CMD ["npm", "run", "dev"]
+CMD ["node", "dist/index.js"]
