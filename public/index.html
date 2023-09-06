@@ -7,11 +7,20 @@
 </head>
 <body>
   <form action="/upload" method="post" enctype="multipart/form-data">
+    <h2>导入</h2>
     <p>
       <input type="file" name="file" accept=".patch">
     </p>
     <p>
       <input type="submit" value="上传npm registry更新包">
+    </p>
+  </form>
+  <div style="border-top: 1px dashed #ccc;margin-top: 26px;"></div>
+  <form action="/download" method="post" enctype="multipart/form-data">
+    <h2>导出</h2>
+    <input type="submit" value="下载全量npm包" />
+    <p style="visibility: hidden;">
+      <input name="input-type" id="squash" value="squash" />
     </p>
   </form>
 </body>

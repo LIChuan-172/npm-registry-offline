@@ -1,7 +1,7 @@
 import express from "express"
 import multer from "multer"
 import fs from "fs"
-import { am, clear } from "./actions"
+import { InputType, am, clear, generateOldPackagesPatch } from "./actions"
 import path from "path"
 
 const PORT = process.env.PORT_ADMIN || 3000
@@ -44,6 +44,31 @@ app.get("/clear", (req, res) => {
   clear()
   res.json({ success: "Storage cleared" })
 })
+
+app.post(
+  `/download`,
+  multer({ storage }).single("package-file"),
+  (req, res) => {
+    const WaitTime = 1800
+
+    res.setTimeout(WaitTime * 1000, () => {
+      console.log(`waiting ${WaitTime} seconds, timeout`)
+    })
+
+    const inputType = req.body["input-type"] as InputType
+
+    if (inputType === "squash") {
+      const patch_name = generateOldPackagesPatch({ patchDir: tmpDir })
+      console.log(`begin to download ${patch_name}`)
+      res.download(patch_name)
+      console.log(`finish download ${patch_name}`)
+      return
+    } else {
+      res.json({ error: "Invalid input type" })
+      return
+    }
+  }
+)
 
 const server = app.listen(PORT, () => {
   console.log(`Server ready at: http://localhost:${PORT}`)
